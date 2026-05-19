@@ -14,6 +14,9 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Nested .next builds from harness-managed git worktrees:
+    "**/.next/**",
+    ".claude/**",
   ]),
 ]);
 
