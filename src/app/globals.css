@@ -48,6 +48,14 @@
 }
 
 :root {
+  /* Custom avatar palette — referenced via var() so they survive Tailwind v4 purge */
+  --color-coral-500: #ff6b6b;
+  --color-sky-500: #0ea5e9;
+  --color-emerald-500: #10b981;
+  --color-amber-500: #f59e0b;
+  --color-violet-500: #8b5cf6;
+  --color-rose-500: #f43f5e;
+
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
