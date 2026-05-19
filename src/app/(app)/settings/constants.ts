@@ -15,3 +15,14 @@ export type SettingsState = {
   status: "idle" | "saved" | "error";
   message?: string;
 };
+
+export type EmailDailyState = {
+  status: "idle" | "saved" | "error";
+  message?: string;
+  email_daily?: boolean;
+};
+
+export type TestEmailState = {
+  status: "idle" | "sent" | "error";
+  message?: string;
+};
