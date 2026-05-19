@@ -45,7 +45,7 @@ All values are placeholders in [`.env.local.example`](.env.local.example) — fi
 
 ## Database migrations
 
-Migrations live in [`supabase/migrations/`](./supabase/migrations) — 0001 (schema), 0002 (activity triggers), 0003 (`profiles.email_daily`), 0004 (any later tweaks). Seed data is in [`supabase/seed.sql`](./supabase/seed.sql). See [`supabase/README.md`](./supabase/README.md) for the full apply / seed walk-through.
+Migrations live in [`supabase/migrations/`](./supabase/migrations) — 0001 (schema), 0002 (activity triggers), 0003 (storage `attachments` bucket + RLS), 0004 (`profiles.email_daily`). Seed data is in [`supabase/seed.sql`](./supabase/seed.sql). See [`supabase/README.md`](./supabase/README.md) for the full apply / seed walk-through.
 
 First-time setup on a fresh Supabase project:
 
