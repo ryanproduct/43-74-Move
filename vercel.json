@@ -1,0 +1,10 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "crons": [
+    {
+      "path": "/api/cron/daily-summary",
+      "schedule": "0 6 * * *",
+      "description": "Daily 7am summary email. 06:00 UTC = 07:00 BST. The May–August move window is entirely within BST so no DST handling is needed for v1."
+    }
+  ]
+}

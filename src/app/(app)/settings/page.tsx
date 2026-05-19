@@ -1,3 +1,4 @@
+import { createClient } from "@/lib/supabase/server";
 import { getCurrentProfile } from "@/lib/profile";
 
 import { SettingsForm } from "./SettingsForm";
@@ -14,8 +15,25 @@ function pickAvatarColor(stored: string | undefined): AvatarColor {
   return "sky-500";
 }
 
+async function getEmailDaily(): Promise<boolean> {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return true;
+
+  const { data } = await supabase
+    .from("profiles")
+    .select("email_daily")
+    .eq("id", user.id)
+    .maybeSingle();
+
+  const value = (data as { email_daily?: boolean } | null)?.email_daily;
+  return value ?? true;
+}
+
 export default async function SettingsPage() {
-  const session = await getCurrentProfile();
+  const [session, emailDaily] = await Promise.all([getCurrentProfile(), getEmailDaily()]);
   const displayName =
     session?.profile?.display_name ?? session?.email?.split("@")[0] ?? "";
   const avatarColor = pickAvatarColor(session?.profile?.avatar_color);
@@ -25,11 +43,15 @@ export default async function SettingsPage() {
       <header className="mb-8 space-y-1">
         <h1 className="text-2xl font-semibold tracking-tight">Settings</h1>
         <p className="text-sm text-muted-foreground">
-          Personalise how you appear in Move HQ. More preferences arrive with the daily-email
-          rollout in Prompt 7.
+          Personalise how you appear in Move HQ and choose whether to receive the daily 7am
+          summary email.
         </p>
       </header>
-      <SettingsForm initialDisplayName={displayName} initialAvatarColor={avatarColor} />
+      <SettingsForm
+        initialDisplayName={displayName}
+        initialAvatarColor={avatarColor}
+        initialEmailDaily={emailDaily}
+      />
     </div>
   );
 }
