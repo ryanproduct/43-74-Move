@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import { Star } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -31,7 +32,14 @@ export function PriorityStarToggle({ itemId, value }: Props) {
     startTransition(async () => {
       setOptimistic(next);
       const result = await setInventoryPriorityUnpack(itemId, next);
-      if (result.ok) router.refresh();
+      if (!result.ok) {
+        toast.error("Couldn't update priority", { description: result.error });
+        return;
+      }
+      toast.success(
+        next ? "Marked for first-day box" : "Removed from first-day box"
+      );
+      router.refresh();
     });
   }
 

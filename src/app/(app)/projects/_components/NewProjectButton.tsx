@@ -15,18 +15,24 @@ import {
 
 import { ProjectForm } from "./ProjectForm";
 
+type Props = {
+  /** Override the button label, e.g. for empty-state CTAs. */
+  label?: string;
+};
+
 /**
  * Trigger + modal that hosts the create-project form. Lives on the list
- * page header. Closes itself on successful save.
+ * page header. Closes itself on successful save. Reused inside the empty
+ * state via the optional `label` prop.
  */
-export function NewProjectButton() {
+export function NewProjectButton({ label = "New project" }: Props = {}) {
   const [open, setOpen] = React.useState(false);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button size="sm">
-          <Plus className="mr-1 h-4 w-4" /> New project
+          <Plus className="mr-1 h-4 w-4" /> {label}
         </Button>
       </DialogTrigger>
       <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-2xl">

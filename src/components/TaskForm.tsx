@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -119,9 +120,14 @@ export function TaskForm({
 
       if (!result.ok) {
         setError(result.error);
+        toast.error(
+          mode === "edit" ? "Couldn't save changes" : "Couldn't create task",
+          { description: result.error }
+        );
         return;
       }
 
+      toast.success(mode === "edit" ? "Task updated" : "Task created");
       router.refresh();
       onSuccess?.();
     });

@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import { Pencil, Trash2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -44,9 +45,12 @@ export function EditContractorButton({ defaults, projects }: Props) {
     startDelete(async () => {
       const result = await deleteContractor(defaults.id);
       if (result && !result.ok) {
-        alert(result.error);
+        toast.error("Couldn't delete contractor", {
+          description: result.error,
+        });
         return;
       }
+      toast.success(`Deleted "${defaults.name}"`);
       router.push("/contractors");
     });
   }

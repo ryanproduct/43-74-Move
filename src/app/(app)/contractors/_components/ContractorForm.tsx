@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -112,9 +113,18 @@ export function ContractorForm({
 
       if (!result.ok) {
         setError(result.error);
+        toast.error(
+          mode === "edit"
+            ? "Couldn't save contractor"
+            : "Couldn't create contractor",
+          { description: result.error }
+        );
         return;
       }
 
+      toast.success(
+        mode === "edit" ? "Contractor updated" : "Contractor added"
+      );
       router.refresh();
       onSuccess?.();
     });

@@ -53,6 +53,7 @@ export default async function ProjectsPage() {
           icon={<FolderKanban className="h-8 w-8" />}
           title="No projects yet"
           description="Add a project to track tasks, decisions, quotes and the chosen contractor in one place."
+          action={<NewProjectButton label="Add the first project" />}
         />
       ) : (
         <div className="flex flex-col gap-6">

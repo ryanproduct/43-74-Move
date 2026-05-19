@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -16,6 +16,19 @@ export const metadata: Metadata = {
   title: "Move HQ",
   description: "Private household app for the 43 Hogarth → 74 Addison move.",
   robots: { index: false, follow: false },
+  manifest: "/manifest.json",
+  applicationName: "Move HQ",
+  appleWebApp: {
+    capable: true,
+    title: "Move HQ",
+    statusBarStyle: "default",
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#F2EDE3",
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({

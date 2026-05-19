@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 import {
   Select,
@@ -42,8 +43,10 @@ export function DecisionPill({ itemId, value }: Props) {
       const result = await setInventoryDecision(itemId, next);
       if (!result.ok) {
         setError(result.error);
+        toast.error("Couldn't update decision", { description: result.error });
         return;
       }
+      toast.success(`Marked as ${DECISION_LABELS[next].toLowerCase()}`);
       router.refresh();
     });
   }

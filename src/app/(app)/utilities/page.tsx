@@ -36,10 +36,11 @@ export default async function UtilitiesPage() {
           icon={<Zap className="h-8 w-8" />}
           title="No utilities yet"
           description="Add the first one to start tracking switchovers."
+          action={<AddUtilityButton label="Add the first utility" />}
         />
       ) : (
-        <div className="overflow-hidden rounded-md border">
-          <Table>
+        <div className="overflow-x-auto rounded-md border">
+          <Table className="min-w-[760px]">
             <TableHeader>
               <TableRow>
                 <TableHead>Name</TableHead>

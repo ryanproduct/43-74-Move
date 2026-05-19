@@ -1,6 +1,7 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
+import { toast } from "sonner";
 import { Check } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -53,6 +54,41 @@ export function SettingsForm({
     sendTestSummary,
     initialTestState
   );
+
+  // Toast on state transitions. We track the previous status by ref to fire
+  // exactly once per server response.
+  const profileStatusRef = useRef(state.status);
+  useEffect(() => {
+    if (state.status === profileStatusRef.current) return;
+    profileStatusRef.current = state.status;
+    if (state.status === "saved") toast.success(state.message ?? "Saved");
+    if (state.status === "error")
+      toast.error("Couldn't save profile", { description: state.message });
+  }, [state]);
+
+  const emailStatusRef = useRef(emailState.status);
+  useEffect(() => {
+    if (emailState.status === emailStatusRef.current) return;
+    emailStatusRef.current = emailState.status;
+    if (emailState.status === "saved")
+      toast.success(emailState.message ?? "Preference saved");
+    if (emailState.status === "error")
+      toast.error("Couldn't save preference", {
+        description: emailState.message,
+      });
+  }, [emailState]);
+
+  const testStatusRef = useRef(testState.status);
+  useEffect(() => {
+    if (testState.status === testStatusRef.current) return;
+    testStatusRef.current = testState.status;
+    if (testState.status === "sent")
+      toast.success(testState.message ?? "Test email sent");
+    if (testState.status === "error")
+      toast.error("Couldn't send test email", {
+        description: testState.message,
+      });
+  }, [testState]);
 
   return (
     <div className="space-y-12">

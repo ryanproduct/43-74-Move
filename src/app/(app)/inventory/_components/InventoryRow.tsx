@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import { Trash2 } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
@@ -262,7 +263,12 @@ function DeleteItemButton({
     if (!confirm(`Delete "${itemName}"?`)) return;
     startTransition(async () => {
       const result = await deleteInventoryItem(itemId);
-      if (result.ok) router.refresh();
+      if (!result.ok) {
+        toast.error("Couldn't delete item", { description: result.error });
+        return;
+      }
+      toast.success(`Deleted "${itemName}"`);
+      router.refresh();
     });
   }
 

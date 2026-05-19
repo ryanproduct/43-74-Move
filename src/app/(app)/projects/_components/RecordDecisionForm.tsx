@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import { Plus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -46,8 +47,10 @@ export function RecordDecisionForm({ projectId }: Props) {
       );
       if (!result.ok) {
         setError(result.error);
+        toast.error("Couldn't save decision", { description: result.error });
         return;
       }
+      toast.success("Decision recorded");
       reset();
       setOpen(false);
       router.refresh();

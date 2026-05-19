@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -91,9 +92,16 @@ export function UtilityForm({ mode, defaults, onSuccess, onCancel }: Props) {
 
       if (!result.ok) {
         setError(result.error);
+        toast.error(
+          mode === "edit"
+            ? "Couldn't save utility"
+            : "Couldn't create utility",
+          { description: result.error }
+        );
         return;
       }
 
+      toast.success(mode === "edit" ? "Utility updated" : "Utility added");
       router.refresh();
       onSuccess?.();
     });

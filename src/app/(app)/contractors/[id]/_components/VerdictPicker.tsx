@@ -3,6 +3,7 @@
 import * as React from "react";
 import { Check, ChevronDown } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 import { cn } from "@/lib/utils";
 import {
@@ -65,9 +66,10 @@ export function VerdictPicker({ contractorId, value }: Props) {
       if (!result.ok) {
         // Roll back optimistic update on failure.
         setOptimistic(value);
-        alert(result.error);
+        toast.error("Couldn't update verdict", { description: result.error });
         return;
       }
+      toast.success(`Verdict set to ${VERDICT_LABELS[next].toLowerCase()}`);
       router.refresh();
     });
   }

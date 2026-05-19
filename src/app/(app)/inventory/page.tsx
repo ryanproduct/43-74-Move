@@ -60,6 +60,7 @@ export default async function InventoryPage() {
           icon={<Boxes className="h-8 w-8" />}
           title="No rooms yet"
           description="Add a room to start cataloguing what stays, what goes, and what gets unpacked first."
+          action={<AddRoomDialog existingRooms={roomNames} />}
         />
       ) : (
         <div className="flex flex-col gap-3">

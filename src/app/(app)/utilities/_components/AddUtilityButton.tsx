@@ -14,11 +14,17 @@ import {
 
 import { UtilityForm } from "./UtilityForm";
 
+type Props = {
+  /** Override the button label, e.g. for empty-state CTAs. */
+  label?: string;
+};
+
 /**
  * "+ Add utility" trigger above the utilities table. Opens the
- * `UtilityForm` inside a Dialog.
+ * `UtilityForm` inside a Dialog. Reused inside the empty state via the
+ * optional `label` prop ("Add the first utility").
  */
-export function AddUtilityButton() {
+export function AddUtilityButton({ label = "Add utility" }: Props = {}) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -27,10 +33,10 @@ export function AddUtilityButton() {
         onClick={() => setOpen(true)}
         size="sm"
         className="gap-1.5"
-        aria-label="Add a utility"
+        aria-label={label}
       >
         <Plus className="h-4 w-4" />
-        <span>Add utility</span>
+        <span>{label}</span>
       </Button>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">

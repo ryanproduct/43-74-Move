@@ -52,7 +52,13 @@ export default async function ContractorsPage({
         <EmptyState
           icon={<Hammer className="h-8 w-8" />}
           title="No contractors yet"
-          description='Click "New contractor" above to capture the first quote.'
+          description="Capture the first quote, contact and verdict."
+          action={
+            <NewContractorButton
+              projects={projects}
+              label="Add the first contractor"
+            />
+          }
         />
       ) : group === "trade" ? (
         <GroupedByTrade contractors={contractors} />

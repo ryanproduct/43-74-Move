@@ -17,13 +17,26 @@ import { createClient } from "@/lib/supabase/client";
 
 type Option = { id: string; name: string };
 
+type ButtonProps = {
+  /** Override the trigger label; collapses to a `<span>` always visible. */
+  label?: string;
+  /** Force the label to always show (e.g. inside empty-state CTAs). */
+  alwaysShowLabel?: boolean;
+};
+
 /**
  * Persistent "+ New task" trigger in the top bar. Opens the real TaskForm
  * inside a Dialog. Form references (profiles / projects / utilities) are
  * lazy-loaded on first open via the browser supabase client so we don't pay
  * for them on every page render.
+ *
+ * Reused inside empty states with a richer label, e.g.
+ *   `<NewTaskButton label="Add the first task" alwaysShowLabel />`
  */
-export function NewTaskButton() {
+export function NewTaskButton({
+  label = "New task",
+  alwaysShowLabel = false,
+}: ButtonProps = {}) {
   const [open, setOpen] = useState(false);
   const [profiles, setProfiles] = useState<ProfileLite[]>([]);
   const [projects, setProjects] = useState<Option[]>([]);
@@ -60,10 +73,12 @@ export function NewTaskButton() {
         onClick={() => setOpen(true)}
         size="sm"
         className="gap-1.5"
-        aria-label="Create a new task"
+        aria-label={label === "New task" ? "Create a new task" : label}
       >
         <Plus className="h-4 w-4" />
-        <span className="hidden sm:inline">New task</span>
+        <span className={alwaysShowLabel ? "" : "hidden sm:inline"}>
+          {label}
+        </span>
       </Button>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">

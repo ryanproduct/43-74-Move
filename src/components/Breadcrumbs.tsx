@@ -15,7 +15,11 @@ export function Breadcrumbs() {
   const pathname = usePathname();
 
   if (pathname === "/") {
-    return <span className="text-sm text-muted-foreground">Dashboard</span>;
+    return (
+      <span className="hidden text-sm text-muted-foreground sm:block">
+        Dashboard
+      </span>
+    );
   }
 
   const segments = pathname.split("/").filter(Boolean);

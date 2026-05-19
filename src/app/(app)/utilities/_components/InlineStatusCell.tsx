@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 import {
   Select,
@@ -46,8 +47,12 @@ export function InlineStatusCell({ utilityId, value }: Props) {
       const result = await setUtilityStatus(utilityId, next);
       if (!result.ok) {
         setError(result.error);
+        toast.error("Couldn't update status", { description: result.error });
         return;
       }
+      toast.success(
+        `Status: ${UTILITY_STATUS_LABELS[next].toLowerCase()}`
+      );
       setEditing(false);
       router.refresh();
     });

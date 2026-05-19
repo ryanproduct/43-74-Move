@@ -17,12 +17,15 @@ import { ContractorForm } from "./ContractorForm";
 
 type Props = {
   projects: ProjectLite[];
+  /** Override the button label, e.g. for empty-state CTAs. */
+  label?: string;
 };
 
 /**
- * "+ New contractor" trigger + create-mode modal. Closes on success.
+ * "+ New contractor" trigger + create-mode modal. Closes on success. Reused
+ * inside the empty state via the optional `label` prop.
  */
-export function NewContractorButton({ projects }: Props) {
+export function NewContractorButton({ projects, label = "New contractor" }: Props) {
   const [open, setOpen] = React.useState(false);
 
   return (
@@ -30,7 +33,7 @@ export function NewContractorButton({ projects }: Props) {
       <DialogTrigger asChild>
         <Button size="sm" className="gap-1.5">
           <Plus className="h-4 w-4" />
-          New contractor
+          {label}
         </Button>
       </DialogTrigger>
       <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">

@@ -1,6 +1,7 @@
 import { Inbox } from "lucide-react";
 
 import { EmptyState } from "@/components/EmptyState";
+import { NewTaskButton } from "@/components/NewTaskButton";
 import { TaskCard, type TaskCardData } from "@/components/TaskCard";
 import { TasksRealtime } from "@/components/TasksRealtime";
 import {
@@ -92,7 +93,8 @@ export default async function TasksPage({
         <EmptyState
           icon={<Inbox className="h-8 w-8" />}
           title="No tasks match these filters"
-          description="Try clearing filters, or add a new task from the top bar."
+          description="Try clearing filters above, or add a new task to get started."
+          action={<NewTaskButton label="Add the first task" alwaysShowLabel />}
         />
       ) : view === "kanban" ? (
         <KanbanBoard tasks={cards} />

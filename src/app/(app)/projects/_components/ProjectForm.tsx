@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -99,9 +100,14 @@ export function ProjectForm({
 
       if (!result.ok) {
         setError(result.error);
+        toast.error(
+          mode === "edit" ? "Couldn't save project" : "Couldn't create project",
+          { description: result.error }
+        );
         return;
       }
 
+      toast.success(mode === "edit" ? "Project updated" : "Project created");
       router.refresh();
       onSuccess?.();
     });

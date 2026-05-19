@@ -1,6 +1,8 @@
 import { redirect } from "next/navigation";
 
 import { AppShell } from "@/components/AppShell";
+import { RegisterServiceWorker } from "@/components/RegisterServiceWorker";
+import { Toaster } from "@/components/ui/sonner";
 import { getCurrentProfile } from "@/lib/profile";
 
 export default async function AuthenticatedLayout({
@@ -26,6 +28,8 @@ export default async function AuthenticatedLayout({
   return (
     <AppShell user={{ email: session.email, displayName, avatarColor }}>
       {children}
+      <RegisterServiceWorker />
+      <Toaster />
     </AppShell>
   );
 }

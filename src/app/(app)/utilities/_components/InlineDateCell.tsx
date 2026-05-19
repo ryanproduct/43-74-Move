@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import { format, parseISO } from "date-fns";
 
 import { Input } from "@/components/ui/input";
@@ -44,8 +45,12 @@ export function InlineDateCell({ utilityId, value }: Props) {
       const result = await setUtilitySwitchDate(utilityId, normalized);
       if (!result.ok) {
         setError(result.error);
+        toast.error("Couldn't update switch date", {
+          description: result.error,
+        });
         return;
       }
+      toast.success(normalized ? "Switch date saved" : "Switch date cleared");
       setEditing(false);
       router.refresh();
     });

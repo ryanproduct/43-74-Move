@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import { Plus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -59,8 +60,10 @@ export function AddItemForm({ rooms, lockedRoom }: Props) {
       });
       if (!result.ok) {
         setError(result.error);
+        toast.error("Couldn't add item", { description: result.error });
         return;
       }
+      toast.success(`Added "${item.trim()}"`);
       setItem("");
       if (!lockedRoom && roomMode === NEW_ROOM) {
         // Keep the new room as the active option so the next add lands there.
