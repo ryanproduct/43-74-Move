@@ -32,11 +32,44 @@ async function getEmailDaily(): Promise<boolean> {
   return value ?? true;
 }
 
+/**
+ * Returns the *other* household member's display name + email, derived from
+ * the ALLOWED_EMAIL_* env vars and the profiles table. Used to seed the
+ * Invite UI with the right person.
+ */
+async function getOtherHouseholdMember(currentEmail: string | undefined) {
+  const allowlist = [process.env.ALLOWED_EMAIL_1, process.env.ALLOWED_EMAIL_2]
+    .filter((v): v is string => Boolean(v))
+    .map((e) => e.trim().toLowerCase());
+
+  const otherEmail = allowlist.find(
+    (e) => e !== currentEmail?.trim().toLowerCase()
+  );
+  if (!otherEmail) return null;
+
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("profiles")
+    .select("display_name")
+    .eq("email", otherEmail)
+    .maybeSingle();
+
+  const displayName =
+    (data as { display_name?: string } | null)?.display_name ??
+    otherEmail.split("@")[0];
+
+  return { email: otherEmail, displayName };
+}
+
 export default async function SettingsPage() {
-  const [session, emailDaily] = await Promise.all([getCurrentProfile(), getEmailDaily()]);
+  const [session, emailDaily] = await Promise.all([
+    getCurrentProfile(),
+    getEmailDaily(),
+  ]);
   const displayName =
     session?.profile?.display_name ?? session?.email?.split("@")[0] ?? "";
   const avatarColor = pickAvatarColor(session?.profile?.avatar_color);
+  const otherMember = await getOtherHouseholdMember(session?.email ?? undefined);
 
   return (
     <div className="mx-auto max-w-2xl px-6 py-10">
@@ -51,6 +84,7 @@ export default async function SettingsPage() {
         initialDisplayName={displayName}
         initialAvatarColor={avatarColor}
         initialEmailDaily={emailDaily}
+        otherMember={otherMember}
       />
     </div>
   );

@@ -9,11 +9,17 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
-import { sendTestSummary, updateEmailDaily, updateProfile } from "./actions";
+import {
+  sendInviteLink,
+  sendTestSummary,
+  updateEmailDaily,
+  updateProfile,
+} from "./actions";
 import {
   AVATAR_COLORS,
   type AvatarColor,
   type EmailDailyState,
+  type InviteState,
   type SettingsState,
   type TestEmailState,
 } from "./constants";
@@ -21,17 +27,20 @@ import {
 const initialProfileState: SettingsState = { status: "idle" };
 const initialEmailState: EmailDailyState = { status: "idle" };
 const initialTestState: TestEmailState = { status: "idle" };
+const initialInviteState: InviteState = { status: "idle" };
 
 type Props = {
   initialDisplayName: string;
   initialAvatarColor: AvatarColor;
   initialEmailDaily: boolean;
+  otherMember: { email: string; displayName: string } | null;
 };
 
 export function SettingsForm({
   initialDisplayName,
   initialAvatarColor,
   initialEmailDaily,
+  otherMember,
 }: Props) {
   const [state, formAction, pending] = useActionState(updateProfile, initialProfileState);
   const [selectedColor, setSelectedColor] = useState<AvatarColor>(initialAvatarColor);
@@ -53,6 +62,11 @@ export function SettingsForm({
   const [testState, testFormAction, testPending] = useActionState(
     sendTestSummary,
     initialTestState
+  );
+
+  const [inviteState, inviteFormAction, invitePending] = useActionState(
+    sendInviteLink,
+    initialInviteState
   );
 
   // Toast on state transitions. We track the previous status by ref to fire
@@ -89,6 +103,18 @@ export function SettingsForm({
         description: testState.message,
       });
   }, [testState]);
+
+  const inviteStatusRef = useRef(inviteState.status);
+  useEffect(() => {
+    if (inviteState.status === inviteStatusRef.current) return;
+    inviteStatusRef.current = inviteState.status;
+    if (inviteState.status === "sent")
+      toast.success(inviteState.message ?? "Invite sent");
+    if (inviteState.status === "error")
+      toast.error("Couldn't send invite", {
+        description: inviteState.message,
+      });
+  }, [inviteState]);
 
   return (
     <div className="space-y-12">
@@ -229,6 +255,45 @@ export function SettingsForm({
           ) : null}
         </form>
       </section>
+
+      {otherMember ? (
+        <section className="space-y-4 border-t border-border pt-8">
+          <div className="space-y-1">
+            <h2 className="text-lg font-semibold tracking-tight">
+              Invite {otherMember.displayName}
+            </h2>
+            <p className="text-sm text-muted-foreground">
+              Sends {otherMember.displayName} ({otherMember.email}) a one-tap sign-in link with
+              a short explanation of what Move HQ is. The link expires shortly and can only be
+              used once.
+            </p>
+          </div>
+          <form action={inviteFormAction} className="space-y-3">
+            <input type="hidden" name="email" value={otherMember.email} />
+            <Button type="submit" disabled={invitePending}>
+              {invitePending
+                ? "Sending..."
+                : `Send sign-in link to ${otherMember.displayName}`}
+            </Button>
+            {inviteState.status === "error" && inviteState.message ? (
+              <p
+                role="alert"
+                className="rounded-md border border-destructive/40 bg-destructive/10 px-3 py-2 text-sm text-destructive"
+              >
+                {inviteState.message}
+              </p>
+            ) : null}
+            {inviteState.status === "sent" ? (
+              <p
+                role="status"
+                className="rounded-md border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-sm text-emerald-700"
+              >
+                {inviteState.message ?? "Sent — check the inbox."}
+              </p>
+            ) : null}
+          </form>
+        </section>
+      ) : null}
     </div>
   );
 }

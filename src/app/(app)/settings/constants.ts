@@ -26,3 +26,8 @@ export type TestEmailState = {
   status: "idle" | "sent" | "error";
   message?: string;
 };
+
+export type InviteState = {
+  status: "idle" | "sent" | "error";
+  message?: string;
+};

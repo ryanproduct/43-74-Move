@@ -15,6 +15,7 @@ import {
   MAX_DISPLAY_NAME_LENGTH,
   type AvatarColor,
   type EmailDailyState,
+  type InviteState,
   type SettingsState,
   type TestEmailState,
 } from "./constants";
@@ -157,4 +158,48 @@ export async function sendTestSummary(
     const message = err instanceof Error ? err.message : "Something went wrong sending the test.";
     return { status: "error", message };
   }
+}
+
+/**
+ * Send a magic-link / invite email to the other allowlisted household member.
+ * Validates the target email against the ALLOWED_EMAIL_* env vars so this
+ * can't be turned into an arbitrary OTP-spamming endpoint.
+ */
+export async function sendInviteLink(
+  _prev: InviteState,
+  formData: FormData
+): Promise<InviteState> {
+  const rawEmail = formData.get("email");
+  const email =
+    typeof rawEmail === "string" ? rawEmail.trim().toLowerCase() : "";
+
+  if (!email) {
+    return { status: "error", message: "Pick someone to invite." };
+  }
+
+  const allowed = new Set(
+    [process.env.ALLOWED_EMAIL_1, process.env.ALLOWED_EMAIL_2]
+      .filter((v): v is string => Boolean(v))
+      .map((e) => e.trim().toLowerCase())
+  );
+  if (!allowed.has(email)) {
+    return { status: "error", message: "Only household members can be invited." };
+  }
+
+  const supabase = await createClient();
+  const appUrl = process.env.APP_URL ?? "https://move.productwins.co";
+
+  const { error } = await supabase.auth.signInWithOtp({
+    email,
+    options: {
+      emailRedirectTo: `${appUrl}/auth/callback`,
+      shouldCreateUser: false,
+    },
+  });
+
+  if (error) {
+    return { status: "error", message: error.message };
+  }
+
+  return { status: "sent", message: `Sign-in link sent to ${email}.` };
 }
