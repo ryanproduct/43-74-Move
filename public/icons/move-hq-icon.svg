@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Move HQ">
+  
+
+  
+  <rect width="512" height="512" fill="#F2EDE3"></rect>
+
+  
+  <g fill="#FF6B6B">
+    
+    <rect x="152" y="135" width="36" height="295"></rect>
+    
+    <rect x="108" y="362" width="44" height="28"></rect>
+    <rect x="122" y="398" width="30" height="24"></rect>
+    
+    <circle cx="170" cy="140" r="68"></circle>
+  </g>
+  
+  <circle cx="170" cy="140" r="29" fill="#F2EDE3"></circle>
+
+  
+  <g fill="#0EA5E9">
+    <rect x="324" y="135" width="36" height="295"></rect>
+    <rect x="360" y="362" width="44" height="28"></rect>
+    <rect x="360" y="398" width="30" height="24"></rect>
+    <circle cx="342" cy="140" r="68"></circle>
+  </g>
+  <circle cx="342" cy="140" r="29" fill="#F2EDE3"></circle>
+</svg>

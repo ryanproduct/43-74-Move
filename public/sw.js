@@ -1,6 +1,6 @@
 /* Move HQ — minimal offline app-shell service worker. */
 
-const CACHE = "move-hq-shell-v1";
+const CACHE = "move-hq-shell-v2";
 
 /**
  * Resources we want available when the device is offline. Intentionally tiny:
