@@ -16,6 +16,10 @@ type Props = {
   windowDays?: number;
   /** Optional caption shown under the big number when the date is upcoming. */
   caption?: string;
+  /** Optional background photo of the property. Rendered behind a paper-coloured gradient so text stays crisp. */
+  image?: string;
+  /** Optional alt text for the background photo. */
+  imageAlt?: string;
 };
 
 /**
@@ -32,6 +36,8 @@ export function CountdownWidget({
   tone = "clay",
   windowDays = 30,
   caption,
+  image,
+  imageAlt,
 }: Props) {
   const now = new Date();
   const diffMs = target.getTime() - now.getTime();
@@ -58,63 +64,96 @@ export function CountdownWidget({
     <Card
       className={cn(
         "relative overflow-hidden rounded-2xl border-stone-200/80 bg-[var(--mv-paper,#FBF7EE)] p-6 pt-5 shadow-none",
-        tone === "clay" && "bg-gradient-to-b",
-        wash
+        !image && tone === "clay" && "bg-gradient-to-b",
+        !image && wash
       )}
     >
-      <div className="absolute right-5 top-5 text-[13px] tabular-nums text-stone-500">
-        {dateLabel}
-      </div>
-
-      <div className={cn("mb-4 h-[3px] w-16 rounded-sm", accent)} />
-
-      <div className="text-[12px] font-semibold uppercase tracking-[0.08em] text-stone-500">
-        {isPast
-          ? tone === "clay"
-            ? "Keys collected"
-            : "Move-out complete"
-          : label}
-      </div>
-      <div className="mt-1 text-[22px] font-semibold tracking-tight text-stone-900">
-        {address}
-      </div>
-
-      {isPast ? (
-        <div className="mt-4 text-[44px] font-semibold leading-none tracking-tight text-emerald-700">
-          Done <span className="text-stone-500">✓</span>
-        </div>
-      ) : (
+      {/*
+        Optional property photo as the card background. Two stacked layers:
+          1. The image itself (cover, anchored bottom so doorways / numbers
+             stay visible), with a small saturate-down so it reads as
+             atmosphere, not subject.
+          2. A paper-coloured gradient overlay biased heavily towards the top
+             so the label + big numeric stay crisp; fades out near the dots.
+      */}
+      {image ? (
         <>
-          <div className="mt-4 text-[72px] font-semibold leading-none tracking-[-0.04em] text-stone-900 tabular-nums sm:text-[88px]">
-            {days}
-            <span className="ml-2 align-middle text-[16px] font-medium tracking-normal text-stone-500">
-              {days === 1 ? "day" : "days"}
-            </span>
-          </div>
-          <div className="mt-2 text-[13px] text-stone-500 tabular-nums">
-            {totalHours.toLocaleString()} hours
-            {caption ? ` · ${caption}` : ""}
-          </div>
+          <div
+            className="pointer-events-none absolute inset-0 bg-cover bg-bottom"
+            style={{
+              backgroundImage: `url(${image})`,
+              filter: "saturate(0.9)",
+            }}
+            role={imageAlt ? "img" : undefined}
+            aria-label={imageAlt}
+            aria-hidden={imageAlt ? undefined : true}
+          />
+          <div
+            className="pointer-events-none absolute inset-0"
+            aria-hidden="true"
+            style={{
+              background:
+                "linear-gradient(180deg, rgba(251,247,238,0.97) 0%, rgba(251,247,238,0.94) 38%, rgba(251,247,238,0.72) 62%, rgba(251,247,238,0.42) 82%, rgba(251,247,238,0.30) 100%)",
+            }}
+          />
         </>
-      )}
+      ) : null}
 
-      <div className="mt-5 flex gap-[3px]" aria-hidden="true">
-        {Array.from({ length: dots }).map((_, i) => {
-          const on = i < onDots;
-          return (
-            <span
-              key={i}
-              className={cn(
-                "h-[6px] w-[6px] rounded-full",
-                on
-                  ? tone === "clay"
-                    ? "bg-[var(--mv-clay,#C25A3F)] opacity-90"
-                    : "bg-[var(--mv-slate,#5C7A8E)] opacity-90"
-                  : "bg-stone-300/60"
-              )}
-            />
-          );
-        })}
+      <div className="relative">
+        <div className="absolute right-0 top-0 text-[13px] tabular-nums text-stone-500">
+          {dateLabel}
+        </div>
+
+        <div className={cn("mb-4 h-[3px] w-16 rounded-sm", accent)} />
+
+        <div className="text-[12px] font-semibold uppercase tracking-[0.08em] text-stone-500">
+          {isPast
+            ? tone === "clay"
+              ? "Keys collected"
+              : "Move-out complete"
+            : label}
+        </div>
+        <div className="mt-1 text-[22px] font-semibold tracking-tight text-stone-900">
+          {address}
+        </div>
+
+        {isPast ? (
+          <div className="mt-4 text-[44px] font-semibold leading-none tracking-tight text-emerald-700">
+            Done <span className="text-stone-500">✓</span>
+          </div>
+        ) : (
+          <>
+            <div className="mt-4 text-[72px] font-semibold leading-none tracking-[-0.04em] text-stone-900 tabular-nums sm:text-[88px]">
+              {days}
+              <span className="ml-2 align-middle text-[16px] font-medium tracking-normal text-stone-500">
+                {days === 1 ? "day" : "days"}
+              </span>
+            </div>
+            <div className="mt-2 text-[13px] text-stone-500 tabular-nums">
+              {totalHours.toLocaleString()} hours
+              {caption ? ` · ${caption}` : ""}
+            </div>
+          </>
+        )}
+
+        <div className="mt-5 flex gap-[3px]" aria-hidden="true">
+          {Array.from({ length: dots }).map((_, i) => {
+            const on = i < onDots;
+            return (
+              <span
+                key={i}
+                className={cn(
+                  "h-[6px] w-[6px] rounded-full",
+                  on
+                    ? tone === "clay"
+                      ? "bg-[var(--mv-clay,#C25A3F)] opacity-90"
+                      : "bg-[var(--mv-slate,#5C7A8E)] opacity-90"
+                    : "bg-stone-300/60"
+                )}
+              />
+            );
+          })}
+        </div>
       </div>
     </Card>
   );

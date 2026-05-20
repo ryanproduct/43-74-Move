@@ -121,6 +121,8 @@ export default async function DashboardPage() {
           address="74 Addison Way"
           tone="clay"
           windowDays={30}
+          image="/images/74-addison-way.jpg"
+          imageAlt="Photo of 74 Addison Way"
         />
         <CountdownWidget
           target={MOVE_OUT_TARGET}
@@ -128,6 +130,8 @@ export default async function DashboardPage() {
           address="43 Hogarth Hill"
           tone="slate"
           windowDays={95}
+          image="/images/43-hogarth-hill.jpg"
+          imageAlt="Photo of 43 Hogarth Hill"
         />
       </section>
 
