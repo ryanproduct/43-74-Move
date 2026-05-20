@@ -41,6 +41,7 @@ export type TaskRow = {
   blocked_reason: string | null;
   project_id: string | null;
   utility_id: string | null;
+  contractor_id: string | null;
   completed_at: string | null;
   created_at: string;
   updated_at: string;

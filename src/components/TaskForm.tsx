@@ -34,6 +34,7 @@ import { createTask, updateTask } from "@/app/(app)/tasks/actions";
 
 type ProjectOption = { id: string; name: string };
 type UtilityOption = { id: string; name: string };
+type ContractorOption = { id: string; name: string };
 
 export type TaskFormDefaults = {
   id?: string;
@@ -47,6 +48,7 @@ export type TaskFormDefaults = {
   due_date?: string | null;
   project_id?: string | null;
   utility_id?: string | null;
+  contractor_id?: string | null;
 };
 
 type Props = {
@@ -55,6 +57,7 @@ type Props = {
   profiles: ProfileLite[];
   projects: ProjectOption[];
   utilities: UtilityOption[];
+  contractors: ContractorOption[];
   onSuccess?: () => void;
   onCancel?: () => void;
 };
@@ -73,6 +76,7 @@ export function TaskForm({
   profiles,
   projects,
   utilities,
+  contractors,
   onSuccess,
   onCancel,
 }: Props) {
@@ -99,6 +103,9 @@ export function TaskForm({
   const [utilityId, setUtilityId] = React.useState(
     defaults?.utility_id ?? NONE
   );
+  const [contractorId, setContractorId] = React.useState(
+    defaults?.contractor_id ?? NONE
+  );
 
   async function handleSubmit(formData: FormData) {
     setError(null);
@@ -111,6 +118,7 @@ export function TaskForm({
     formData.set("owner_id", owner === UNASSIGNED ? "" : owner);
     formData.set("project_id", projectId === NONE ? "" : projectId);
     formData.set("utility_id", utilityId === NONE ? "" : utilityId);
+    formData.set("contractor_id", contractorId === NONE ? "" : contractorId);
 
     startTransition(async () => {
       const result =
@@ -287,6 +295,23 @@ export function TaskForm({
               {utilities.map((u) => (
                 <SelectItem key={u.id} value={u.id}>
                   {u.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="space-y-1.5">
+          <Label>Contractor</Label>
+          <Select value={contractorId} onValueChange={setContractorId}>
+            <SelectTrigger>
+              <SelectValue placeholder="None" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value={NONE}>None</SelectItem>
+              {contractors.map((c) => (
+                <SelectItem key={c.id} value={c.id}>
+                  {c.name}
                 </SelectItem>
               ))}
             </SelectContent>

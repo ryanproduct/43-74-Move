@@ -31,6 +31,7 @@ export function EditTaskButton({ defaults }: Props) {
   const [profiles, setProfiles] = React.useState<ProfileLite[]>([]);
   const [projects, setProjects] = React.useState<Option[]>([]);
   const [utilities, setUtilities] = React.useState<Option[]>([]);
+  const [contractors, setContractors] = React.useState<Option[]>([]);
   const [loaded, setLoaded] = React.useState(false);
 
   React.useEffect(() => {
@@ -38,18 +39,20 @@ export function EditTaskButton({ defaults }: Props) {
     const supabase = createClient();
     let cancelled = false;
     (async () => {
-      const [profilesRes, projectsRes, utilitiesRes] = await Promise.all([
+      const [profilesRes, projectsRes, utilitiesRes, contractorsRes] = await Promise.all([
         supabase
           .from("profiles")
           .select("id, display_name, avatar_color")
           .order("display_name"),
         supabase.from("projects").select("id, name").order("name"),
         supabase.from("utilities").select("id, name").order("name"),
+        supabase.from("contractors").select("id, name").order("name"),
       ]);
       if (cancelled) return;
       setProfiles((profilesRes.data ?? []) as ProfileLite[]);
       setProjects((projectsRes.data ?? []) as Option[]);
       setUtilities((utilitiesRes.data ?? []) as Option[]);
+      setContractors((contractorsRes.data ?? []) as Option[]);
       setLoaded(true);
     })();
     return () => {
@@ -74,6 +77,7 @@ export function EditTaskButton({ defaults }: Props) {
           profiles={profiles}
           projects={projects}
           utilities={utilities}
+          contractors={contractors}
           onSuccess={() => setOpen(false)}
           onCancel={() => setOpen(false)}
         />

@@ -5,7 +5,7 @@ import type { TaskRow, TaskStatus, TaskCategory, Property, ProfileLite } from ".
 
 const TASK_SELECT = `
   id, title, description, property, category, owner_id, status, priority,
-  due_date, blocked_reason, project_id, utility_id, completed_at,
+  due_date, blocked_reason, project_id, utility_id, contractor_id, completed_at,
   created_at, updated_at, created_by,
   owner:profiles!tasks_owner_id_fkey(id, display_name, avatar_color)
 `;

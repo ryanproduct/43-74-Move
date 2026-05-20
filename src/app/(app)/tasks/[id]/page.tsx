@@ -94,6 +94,7 @@ export default async function TaskDetailPage({ params }: { params: Params }) {
               due_date: task.due_date,
               project_id: task.project_id,
               utility_id: task.utility_id,
+              contractor_id: task.contractor_id,
             }}
           />
         </div>

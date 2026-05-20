@@ -41,6 +41,7 @@ export function NewTaskButton({
   const [profiles, setProfiles] = useState<ProfileLite[]>([]);
   const [projects, setProjects] = useState<Option[]>([]);
   const [utilities, setUtilities] = useState<Option[]>([]);
+  const [contractors, setContractors] = useState<Option[]>([]);
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
@@ -48,18 +49,20 @@ export function NewTaskButton({
     const supabase = createClient();
     let cancelled = false;
     (async () => {
-      const [profilesRes, projectsRes, utilitiesRes] = await Promise.all([
+      const [profilesRes, projectsRes, utilitiesRes, contractorsRes] = await Promise.all([
         supabase
           .from("profiles")
           .select("id, display_name, avatar_color")
           .order("display_name"),
         supabase.from("projects").select("id, name").order("name"),
         supabase.from("utilities").select("id, name").order("name"),
+        supabase.from("contractors").select("id, name").order("name"),
       ]);
       if (cancelled) return;
       setProfiles((profilesRes.data ?? []) as ProfileLite[]);
       setProjects((projectsRes.data ?? []) as Option[]);
       setUtilities((utilitiesRes.data ?? []) as Option[]);
+      setContractors((contractorsRes.data ?? []) as Option[]);
       setLoaded(true);
     })();
     return () => {
@@ -93,6 +96,7 @@ export function NewTaskButton({
             profiles={profiles}
             projects={projects}
             utilities={utilities}
+            contractors={contractors}
             onSuccess={() => setOpen(false)}
             onCancel={() => setOpen(false)}
           />

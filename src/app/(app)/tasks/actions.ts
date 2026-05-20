@@ -51,6 +51,7 @@ export async function createTask(
     due_date: nullable(formData.get("due_date")),
     project_id: nullable(formData.get("project_id")),
     utility_id: nullable(formData.get("utility_id")),
+    contractor_id: nullable(formData.get("contractor_id")),
     created_by: userId,
   };
 
@@ -90,6 +91,7 @@ export async function updateTask(
     due_date: nullable(formData.get("due_date")),
     project_id: nullable(formData.get("project_id")),
     utility_id: nullable(formData.get("utility_id")),
+    contractor_id: nullable(formData.get("contractor_id")),
   };
 
   const { error } = await supabase.from("tasks").update(payload).eq("id", id);
