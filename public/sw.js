@@ -1,4 +1,4 @@
-/* Move HQ — minimal offline app-shell service worker. */
+/* Move 43-74 — minimal offline app-shell service worker. */
 
 const CACHE = "move-hq-shell-v2";
 
@@ -95,7 +95,7 @@ self.addEventListener("fetch", (event) => {
       // Offline + no cache → return a tiny inline fallback so the browser
       // doesn't show its own offline page.
       return new Response(
-        "<!doctype html><meta charset=utf-8><title>Offline</title><body style=\"font:14px/1.4 -apple-system,sans-serif;color:#333;padding:24px\">Move HQ is offline. Reconnect and try again.</body>",
+        "<!doctype html><meta charset=utf-8><title>Offline</title><body style=\"font:14px/1.4 -apple-system,sans-serif;color:#333;padding:24px\">Move 43-74 is offline. Reconnect and try again.</body>",
         { headers: { "Content-Type": "text/html; charset=utf-8" }, status: 503 }
       );
     })()

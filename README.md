@@ -1,4 +1,4 @@
-# Move HQ
+# Move 43-74
 
 Private household web app for **Ryan & Eleanor** to manage the move from **43 Hogarth Hill → 74 Addison Way**, hidden behind a magic-link allowlist on `move.productwins.co`.
 
@@ -77,7 +77,7 @@ Before either user can log in:
 
 ## PWA install
 
-Move HQ ships a minimal manifest + service worker so the dashboard installs to the home screen.
+Move 43-74 ships a minimal manifest + service worker so the dashboard installs to the home screen.
 
 - **iOS Safari**: Share → "Add to Home Screen".
 - **Android Chrome**: tap the address-bar menu → "Install app" (or wait for the install prompt).

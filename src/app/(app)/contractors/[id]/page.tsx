@@ -377,7 +377,7 @@ export default async function ContractorDetailPage({
         </section>
 
         <footer className="mt-10 flex items-center justify-between border-t pt-4 pb-2 text-xs text-muted-foreground">
-          <span>Move HQ · private</span>
+          <span>Move 43-74 · private</span>
           <span className="tabular-nums">
             last edited {new Date(contractor.updated_at).toLocaleString("en-GB")}
           </span>

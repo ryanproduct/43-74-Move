@@ -30,9 +30,9 @@ export function AppShell({ user, children }: AppShellProps) {
           <Link
             href="/"
             className="text-base font-semibold tracking-tight"
-            aria-label="Move HQ home"
+            aria-label="Move 43-74 home"
           >
-            Move HQ
+            Move 43-74
           </Link>
           <Breadcrumbs />
         </div>

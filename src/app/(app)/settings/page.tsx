@@ -5,7 +5,7 @@ import { SettingsForm } from "./SettingsForm";
 import { AVATAR_COLORS, type AvatarColor } from "./constants";
 
 export const metadata = {
-  title: "Settings — Move HQ",
+  title: "Settings — Move 43-74",
 };
 
 function pickAvatarColor(stored: string | undefined): AvatarColor {
@@ -76,7 +76,7 @@ export default async function SettingsPage() {
       <header className="mb-8 space-y-1">
         <h1 className="text-2xl font-semibold tracking-tight">Settings</h1>
         <p className="text-sm text-muted-foreground">
-          Personalise how you appear in Move HQ and choose whether to receive the daily 7am
+          Personalise how you appear in Move 43-74 and choose whether to receive the daily 7am
           summary email.
         </p>
       </header>

@@ -1,6 +1,6 @@
-# Supabase — Move HQ
+# Supabase — Move 43-74
 
-All SQL for the Move HQ database lives here:
+All SQL for the Move 43-74 database lives here:
 
 ```
 supabase/

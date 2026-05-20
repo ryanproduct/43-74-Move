@@ -33,7 +33,7 @@ export function Breadcrumbs() {
       <ol className="flex items-center gap-1">
         <li>
           <Link href="/" className="hover:text-foreground">
-            Move HQ
+            Move 43-74
           </Link>
         </li>
         {crumbs.map((crumb, index) => {

@@ -13,14 +13,14 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Move HQ",
+  title: "Move 43-74",
   description: "Private household app for the 43 Hogarth → 74 Addison move.",
   robots: { index: false, follow: false },
   manifest: "/manifest.json",
-  applicationName: "Move HQ",
+  applicationName: "Move 43-74",
   appleWebApp: {
     capable: true,
-    title: "Move HQ",
+    title: "Move 43-74",
     statusBarStyle: "default",
   },
 };

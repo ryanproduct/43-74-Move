@@ -45,7 +45,7 @@ export default function GlobalError({ error, unstable_retry, reset }: Props) {
               margin: "0 0 8px",
             }}
           >
-            Move HQ couldn&apos;t load.
+            Move 43-74 couldn&apos;t load.
           </h1>
           <p style={{ fontSize: 14, color: "#6b6258", margin: "0 0 16px" }}>
             Something failed at the root of the app. Try again, or refresh the

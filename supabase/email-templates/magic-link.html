@@ -1,10 +1,10 @@
 <!--
-  Move HQ — Magic-link / invite email template.
+  Move 43-74 — Magic-link / invite email template.
 
   This file is the source of truth for the HTML that Supabase Auth sends
   whenever someone requests a magic link (via /login or via the "Invite
-  household member" button in /settings). It's pushed into Supabase via the
-  management API; keeping it in git so changes are reviewable.
+  household member" button in /settings). It's pushed into Supabase via
+  the management API; keeping it in git so changes are reviewable.
 
   Template variables (Go html/template, expanded by Supabase Auth):
     {{ .ConfirmationURL }}   The signed magic-link URL → /auth/callback?code=…
@@ -12,26 +12,34 @@
     {{ .Email }}             Recipient email
 
   Subject (set separately via mailer_subjects_magic_link):
-    "Your Move HQ sign-in link"
+    "Sign in to Move 43-74"
 -->
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Your Move HQ sign-in link</title>
+    <title>Sign in to Move 43-74</title>
   </head>
   <body style="margin:0;padding:0;background:#F2EDE3;font-family:Georgia,'Iowan Old Style','Times New Roman',serif;color:#1f1f1f;-webkit-font-smoothing:antialiased;">
     <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#F2EDE3;">
       <tr>
         <td align="center" style="padding:48px 16px;">
+          <!-- Icon sits on the clay outer background so its clay backdrop blends in -->
+          <img
+            src="https://move.productwins.co/icons/icon-192.png"
+            width="72"
+            height="72"
+            alt="Move 43-74"
+            style="display:block;margin:0 auto 24px;border-radius:16px;border:1px solid rgba(0,0,0,0.04);"
+          />
           <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="max-width:560px;background:#ffffff;border-radius:12px;border:1px solid rgba(0,0,0,0.06);box-shadow:0 1px 2px rgba(0,0,0,0.04);">
             <tr>
               <td style="padding:40px 40px 32px;">
-                <div style="font-family:-apple-system,system-ui,'Segoe UI',Helvetica,Arial,sans-serif;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#9c8e7e;margin-bottom:24px;">Move HQ</div>
+                <div style="font-family:-apple-system,system-ui,'Segoe UI',Helvetica,Arial,sans-serif;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#9c8e7e;margin-bottom:24px;">Move 43-74 &middot; From Ryan</div>
                 <h1 style="margin:0 0 16px;font-size:24px;line-height:1.3;font-weight:600;color:#222;">A small private app for the move</h1>
                 <p style="margin:0 0 16px;font-size:16px;line-height:1.65;color:#3a3a3a;">
-                  Move HQ is a shared brain for everything to do with the move from 43 Hogarth Hill to 74 Addison Way — tasks, utility switchovers, contractor research, the inventory sort.
+                  Ryan put this together for the two of you &mdash; a shared brain for everything to do with the move from 43 Hogarth Hill to 74 Addison Way. Tasks, utility switchovers, contractor research, the inventory sort, all in one place.
                 </p>
                 <p style="margin:0 0 28px;font-size:16px;line-height:1.65;color:#3a3a3a;">
                   It&rsquo;s just for the two of you. Tap below to sign in and have a look around.
@@ -40,20 +48,23 @@
                   <tr>
                     <td align="center" style="background:#1f1f1f;border-radius:8px;">
                       <a href="{{ .ConfirmationURL }}" style="display:inline-block;padding:14px 28px;color:#ffffff;text-decoration:none;font-family:-apple-system,system-ui,'Segoe UI',Helvetica,Arial,sans-serif;font-size:15px;font-weight:500;letter-spacing:0.01em;">
-                        Sign in to Move HQ
+                        Sign in to Move 43-74
                       </a>
                     </td>
                   </tr>
                 </table>
-                <p style="margin:24px 0 0;font-size:13px;line-height:1.55;color:#7a7068;">
+                <p style="margin:24px 0 4px;font-size:13px;line-height:1.55;color:#7a7068;">
                   The link expires shortly and can only be used once. Once you&rsquo;re in, bookmark <a href="https://move.productwins.co" style="color:#7a7068;text-decoration:underline;">move.productwins.co</a> or &ldquo;Add to Home Screen&rdquo; on your phone so it&rsquo;s one tap away.
+                </p>
+                <p style="margin:24px 0 0;font-size:15px;line-height:1.6;color:#3a3a3a;font-style:italic;">
+                  &mdash; Ryan
                 </p>
               </td>
             </tr>
             <tr>
               <td style="padding:16px 40px 32px;border-top:1px solid #eee2d2;">
                 <p style="margin:0;font-size:12px;line-height:1.55;color:#9c8e7e;">
-                  You&rsquo;re getting this email because someone with access to Move HQ requested a sign-in link for this address. If that wasn&rsquo;t you, just ignore it &mdash; the link expires on its own.
+                  You&rsquo;re getting this email because someone with access to Move 43-74 requested a sign-in link for this address. If that wasn&rsquo;t you, just ignore it &mdash; the link expires on its own.
                 </p>
               </td>
             </tr>

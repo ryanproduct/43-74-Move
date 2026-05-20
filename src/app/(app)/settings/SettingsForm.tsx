@@ -264,7 +264,7 @@ export function SettingsForm({
             </h2>
             <p className="text-sm text-muted-foreground">
               Sends {otherMember.displayName} ({otherMember.email}) a one-tap sign-in link with
-              a short explanation of what Move HQ is. The link expires shortly and can only be
+              a short explanation of what Move 43-74 is. The link expires shortly and can only be
               used once.
             </p>
           </div>

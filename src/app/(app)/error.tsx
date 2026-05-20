@@ -34,7 +34,7 @@ export default function AppError({ error, unstable_retry, reset }: Props) {
           Something went wrong.
         </h1>
         <p className="text-sm text-muted-foreground">
-          Move HQ hit an unexpected error rendering this page. The data is
+          Move 43-74 hit an unexpected error rendering this page. The data is
           safe — try again, or ping Ryan if it sticks.
         </p>
       </div>

@@ -203,7 +203,7 @@ export function renderDailySummary(data: DailySummaryData): EmailContent {
   const { weekday, dayMonth } = formatLondonDate(data.rendered_for);
   const appUrl = process.env.APP_URL || APP_URL_FALLBACK;
 
-  const subject = `Move HQ — ${weekday} ${dayMonth}`;
+  const subject = `Move 43-74 — ${weekday} ${dayMonth}`;
 
   const lines: string[] = [];
   lines.push("Good morning Ryan & Eleanor,");
@@ -245,7 +245,7 @@ export function renderDailySummary(data: DailySummaryData): EmailContent {
   }
   lines.push("");
 
-  lines.push(`→ Open Move HQ: ${appUrl}`);
+  lines.push(`→ Open Move 43-74: ${appUrl}`);
 
   return { subject, textBody: lines.join("\n") };
 }
