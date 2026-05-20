@@ -23,6 +23,7 @@ import {
 } from "@/lib/tasks/queries";
 import { PRIORITY_LABELS } from "@/lib/tasks/types";
 
+import { EditTaskButton } from "./_components/EditTaskButton";
 import { EditableDescription } from "./_components/EditableDescription";
 import { EditableTitle } from "./_components/EditableTitle";
 
@@ -78,7 +79,24 @@ export default async function TaskDetailPage({ params }: { params: Params }) {
       </Link>
 
       <header className="flex flex-col gap-3">
-        <EditableTitle taskId={task.id} initialTitle={task.title} />
+        <div className="flex items-start justify-between gap-3">
+          <EditableTitle taskId={task.id} initialTitle={task.title} />
+          <EditTaskButton
+            defaults={{
+              id: task.id,
+              title: task.title,
+              description: task.description,
+              property: task.property,
+              category: task.category,
+              owner_id: task.owner?.id ?? null,
+              status: task.status,
+              priority: task.priority,
+              due_date: task.due_date,
+              project_id: task.project_id,
+              utility_id: task.utility_id,
+            }}
+          />
+        </div>
         <div className="flex flex-wrap items-center gap-2 text-xs">
           <PropertyPill value={task.property} />
           <TaskStatusPill value={task.status} />

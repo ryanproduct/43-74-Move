@@ -19,6 +19,7 @@ import {
 
 import { UtilitiesRealtime } from "../_components/UtilitiesRealtime";
 import { UtilityStatusPill } from "../_components/UtilityStatusPill";
+import { EditUtilityButton } from "./_components/EditUtilityButton";
 import { EditableNotes } from "./_components/EditableNotes";
 import {
   UtilityFileAttachmentList,
@@ -72,7 +73,24 @@ export default async function UtilityDetailPage({ params }: { params: Params }) 
       </Link>
 
       <header className="flex flex-col gap-3">
-        <h1 className="text-2xl font-semibold tracking-tight">{utility.name}</h1>
+        <div className="flex items-start justify-between gap-3">
+          <h1 className="text-2xl font-semibold tracking-tight">{utility.name}</h1>
+          <EditUtilityButton
+            defaults={{
+              id: utility.id,
+              name: utility.name,
+              type: utility.type,
+              account_number: utility.account_number,
+              hogarth_action: utility.hogarth_action,
+              addison_action: utility.addison_action,
+              switch_date: utility.switch_date,
+              status: utility.status,
+              contact_phone: utility.contact_phone,
+              contact_url: utility.contact_url,
+              notes: utility.notes,
+            }}
+          />
+        </div>
         <div className="flex flex-wrap items-center gap-2 text-xs">
           <span className="inline-flex items-center rounded-full border bg-background px-2 py-0.5 font-medium">
             {UTILITY_TYPE_LABELS[utility.type]}
