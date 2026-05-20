@@ -8,6 +8,7 @@ import { RecentActivityWidget } from "./_components/RecentActivityWidget";
 import { ProjectProgressWidget } from "./_components/ProjectProgressWidget";
 import { UtilityHeatmapWidget } from "./_components/UtilityHeatmapWidget";
 import { DashboardRealtime } from "./_components/DashboardRealtime";
+import { FirstLoginWelcome } from "./_components/FirstLoginWelcome";
 import {
   getBlockedTasks,
   getProjectsWithProgress,
@@ -18,6 +19,38 @@ import {
   londonToday,
 } from "@/lib/dashboard/queries";
 import { getCurrentProfile } from "@/lib/profile";
+import { createClient } from "@/lib/supabase/server";
+
+/**
+ * Atomic: flip `profiles.has_logged_in_before` from false→true for the
+ * current user and tell the page whether it was the actual first time.
+ * Using a single conditional UPDATE makes refreshes idempotent — the
+ * second visit returns no row, so confetti only fires once ever.
+ */
+async function consumeFirstLoginFlag(): Promise<{
+  isFirstLogin: boolean;
+  displayName?: string;
+}> {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { isFirstLogin: false };
+
+  const { data } = await supabase
+    .from("profiles")
+    .update({ has_logged_in_before: true })
+    .eq("id", user.id)
+    .eq("has_logged_in_before", false)
+    .select("display_name")
+    .maybeSingle();
+
+  if (!data) return { isFirstLogin: false };
+  return {
+    isFirstLogin: true,
+    displayName: (data as { display_name: string | null }).display_name ?? undefined,
+  };
+}
 
 // Key dates — both fall inside British Summer Time (UTC+1). Anchor each to
 // 09:00 Europe/London (= 08:00Z) so the countdown shows "0 days" only on the
@@ -39,6 +72,7 @@ export default async function DashboardPage() {
     activity,
     projects,
     utilities,
+    welcome,
   ] = await Promise.all([
     getCurrentProfile(),
     getTodayTasks(today),
@@ -47,6 +81,7 @@ export default async function DashboardPage() {
     getRecentActivity(10),
     getProjectsWithProgress(),
     getUtilitiesForHeatmap(),
+    consumeFirstLoginFlag(),
   ]);
 
   const displayName =
@@ -64,6 +99,9 @@ export default async function DashboardPage() {
   return (
     <div className="mx-auto flex max-w-[1320px] flex-col gap-5 px-5 py-6 md:px-7 md:py-7">
       <DashboardRealtime />
+      {welcome.isFirstLogin ? (
+        <FirstLoginWelcome displayName={welcome.displayName ?? displayName} />
+      ) : null}
 
       {/* Greeting */}
       <header className="flex flex-wrap items-baseline justify-between gap-2">
