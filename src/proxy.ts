@@ -39,11 +39,14 @@ export async function proxy(request: NextRequest) {
 export const config = {
   matcher: [
     /*
-     * Match all request paths except for the ones starting with:
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
+     * Match all request paths except:
+     * - _next/static, _next/image (build assets)
+     * - favicon.ico
+     * - Any file with an extension that should be served as-is:
+     *   images (svg/png/jpg/jpeg/gif/webp/ico),
+     *   PWA chrome (manifest.json, sw.js),
+     *   fonts (woff/woff2/ttf), txt (e.g. robots.txt)
      */
-    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+    "/((?!_next/static|_next/image|favicon.ico|manifest.json|sw.js|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|webmanifest|woff|woff2|ttf|txt)$).*)",
   ],
 };
