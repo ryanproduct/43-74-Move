@@ -11,7 +11,10 @@ export async function proxy(request: NextRequest) {
   const { response, user } = await updateSession(request);
 
   const { pathname } = request.nextUrl;
-  const isPublic = PUBLIC_PATHS.has(pathname);
+  // API routes manage their own auth (e.g. /api/cron/* gates on CRON_SECRET),
+  // so they bypass the session-based redirect-to-login.
+  const isApi = pathname.startsWith("/api/");
+  const isPublic = isApi || PUBLIC_PATHS.has(pathname);
 
   // Gate every non-public route on a signed-in user.
   if (!user && !isPublic) {
